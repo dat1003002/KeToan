@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Admin_KeToan.Migrations
 {
     [DbContext(typeof(KeToanDbContext))]
-    [Migration("20250620021426_updateEmail")]
-    partial class updateEmail
+    [Migration("20250910035922_updatepayment")]
+    partial class updatepayment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,11 +68,11 @@ namespace Admin_KeToan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanId"));
 
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("Balance")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("BankId")
                         .HasColumnType("int");
@@ -101,8 +101,14 @@ namespace Admin_KeToan.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<decimal>("PrincipalPaymentAmount")
+                        .HasColumnType("decimal(15,2)");
+
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("StartPrincipalPaymentMonth")
+                        .HasColumnType("int");
 
                     b.HasKey("LoanId");
 
@@ -131,6 +137,9 @@ namespace Admin_KeToan.Migrations
                     b.Property<decimal>("EstimatedInterestPaid")
                         .HasColumnType("decimal(15,2)");
 
+                    b.Property<decimal>("EstimatedPrincipalPaid")
+                        .HasColumnType("decimal(15,2)");
+
                     b.Property<decimal>("InterestPaid")
                         .HasColumnType("decimal(15,2)");
 
@@ -140,11 +149,17 @@ namespace Admin_KeToan.Migrations
                     b.Property<bool>("IsConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsEmailSent")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LoanId")
                         .HasColumnType("int");
 
                     b.Property<int>("NumberOfDays")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<decimal>("PrincipalPaid")
                         .HasColumnType("decimal(15,2)");

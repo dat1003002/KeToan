@@ -32,7 +32,6 @@ namespace Admin_KeToan
             var scheduledTime = new DateTime(now.Year, now.Month, now.Day, hour, minute, 0);
             if (scheduledTime <= now)
                 scheduledTime = scheduledTime.AddDays(1);
-
             var interval = (scheduledTime - now).TotalMilliseconds;
             _emailTimer.Interval = interval;
             Console.WriteLine($"[{DateTime.Now}] Scheduled email check for {scheduledTime:dd/MM/yyyy HH:mm:ss}");
@@ -53,9 +52,8 @@ namespace Admin_KeToan
                     .Include(p => p.Loan)
                     .ThenInclude(l => l.Bank)
                     .Include(p => p.NotificationEmails)
-                    .Where(p => !p.IsConfirmed && p.EndDate.Date == DateTime.Today.AddDays(3))
+                    .Where(p => !p.IsConfirmed && p.PaymentDate.HasValue && p.PaymentDate.Value.Date == DateTime.Today.AddDays(3))
                     .ToList();
-
                 Console.WriteLine($"[{DateTime.Now}] Payments found: {payments.Count}");
                 if (!payments.Any()) return;
 
@@ -86,7 +84,7 @@ namespace Admin_KeToan
                     foreach (var email in emailsToNotify)
                     {
                         SendEmailNotification(email.EmailAddress, bank.BankName, loan.LoanName,
-                            payment.EndDate, payment.InterestPaid, payment.PrincipalPaid, isFinalPayment, loan.Balance);
+                            payment.PaymentDate.Value, payment.InterestPaid, payment.PrincipalPaid, isFinalPayment, loan.Balance);
                     }
                 }
             }
@@ -95,9 +93,8 @@ namespace Admin_KeToan
                 LogError($"Lỗi gửi email: {ex.Message}");
             }
         }
-
         private void SendEmailNotification(string emailAddress, string bankName, string loanName,
-            DateTime endDate, decimal interestPaid, decimal principalPaid, bool isFinalPayment, decimal loanBalance)
+            DateTime paymentDate, decimal interestPaid, decimal principalPaid, bool isFinalPayment, decimal loanBalance)
         {
             try
             {
@@ -107,11 +104,11 @@ namespace Admin_KeToan
                 string fromPassword = ConfigurationManager.AppSettings["SmtpPassword"];
                 const string subject = "Thông báo đến hạn thanh toán lãi";
                 string body = $"Kính gửi bộ phận kế toán,\n\n" +
-                             $"Khoản vay '{loanName}' từ ngân hàng {bankName} sẽ đến hạn thanh toán vào ngày {endDate:dd/MM/yyyy}.\n" +
+                             $"Khoản vay '{loanName}' từ ngân hàng {bankName} sẽ đến hạn thanh toán vào ngày {paymentDate:dd/MM/yyyy}.\n" +
                              $"Chi tiết:\n" +
                              $"- Tiền lãi: {interestPaid:N2} \n" +
                              (isFinalPayment
-                                 ? $"- Tiền gốc: {principalPaid:N0}  (Toàn bộ số dư {loanBalance:N0}  sẽ được trả hết)\n"
+                                 ? $"- Tiền gốc: {principalPaid:N0} (Toàn bộ số dư {loanBalance:N0} sẽ được trả hết)\n"
                                  : $"- Tiền gốc: {principalPaid:N0} \n") +
                              $"Vui lòng chuẩn bị thanh toán đúng hạn.\n\n" +
                              $"Trân trọng,\nHệ thống Kế Toán";
@@ -125,6 +122,7 @@ namespace Admin_KeToan
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                 };
+
                 using var message = new MailMessage(fromAddress, toAddress)
                 {
                     Subject = subject,

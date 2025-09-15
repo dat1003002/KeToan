@@ -32,6 +32,9 @@
             label1 = new Label();
             dataPayment = new DataGridView();
             groupBox1 = new GroupBox();
+            btnthemmoi = new Button();
+            label7 = new Label();
+            txtsongay = new TextBox();
             lbdutinh = new Label();
             lbngaytralai = new Label();
             lbCumulativeInterestPaid = new Label();
@@ -90,6 +93,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(btnthemmoi);
+            groupBox1.Controls.Add(label7);
+            groupBox1.Controls.Add(txtsongay);
             groupBox1.Controls.Add(lbdutinh);
             groupBox1.Controls.Add(lbngaytralai);
             groupBox1.Controls.Add(lbCumulativeInterestPaid);
@@ -116,22 +122,52 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Chi Tiết Thanh Toán";
             // 
+            // btnthemmoi
+            // 
+            btnthemmoi.BackColor = Color.FromArgb(39, 185, 154);
+            btnthemmoi.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnthemmoi.ForeColor = SystemColors.ButtonHighlight;
+            btnthemmoi.Location = new Point(992, 168);
+            btnthemmoi.Name = "btnthemmoi";
+            btnthemmoi.Size = new Size(97, 33);
+            btnthemmoi.TabIndex = 20;
+            btnthemmoi.Text = "Tạo Mới";
+            btnthemmoi.UseVisualStyleBackColor = false;
+            btnthemmoi.Click += btnthemmoi_Click;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label7.Location = new Point(484, 173);
+            label7.Name = "label7";
+            label7.Size = new Size(92, 23);
+            label7.TabIndex = 19;
+            label7.Text = "Số Ngày :";
+            // 
+            // txtsongay
+            // 
+            txtsongay.Location = new Point(615, 168);
+            txtsongay.Name = "txtsongay";
+            txtsongay.Size = new Size(204, 34);
+            txtsongay.TabIndex = 18;
+            txtsongay.TextChanged += txtsongay_TextChanged;
+            // 
             // lbdutinh
             // 
             lbdutinh.AutoSize = true;
             lbdutinh.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbdutinh.Location = new Point(866, 121);
+            lbdutinh.Location = new Point(866, 90);
             lbdutinh.Name = "lbdutinh";
             lbdutinh.Size = new Size(146, 23);
             lbdutinh.TabIndex = 17;
             lbdutinh.Text = "Khoản Dự Tính:";
-            lbdutinh.Click += lbdutinh_Click;
             // 
             // lbngaytralai
             // 
             lbngaytralai.AutoSize = true;
             lbngaytralai.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbngaytralai.Location = new Point(866, 62);
+            lbngaytralai.Location = new Point(866, 51);
             lbngaytralai.Name = "lbngaytralai";
             lbngaytralai.Size = new Size(175, 23);
             lbngaytralai.TabIndex = 16;
@@ -142,7 +178,7 @@
             // 
             lbCumulativeInterestPaid.AutoSize = true;
             lbCumulativeInterestPaid.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbCumulativeInterestPaid.Location = new Point(866, 189);
+            lbCumulativeInterestPaid.Location = new Point(866, 132);
             lbCumulativeInterestPaid.Name = "lbCumulativeInterestPaid";
             lbCumulativeInterestPaid.Size = new Size(164, 23);
             lbCumulativeInterestPaid.TabIndex = 15;
@@ -184,11 +220,11 @@
             // addpayment
             // 
             addpayment.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            addpayment.Location = new Point(484, 178);
+            addpayment.Location = new Point(854, 167);
             addpayment.Name = "addpayment";
             addpayment.Size = new Size(107, 34);
             addpayment.TabIndex = 11;
-            addpayment.Text = "Tạo Mới";
+            addpayment.Text = "Chỉnh Sửa";
             addpayment.UseVisualStyleBackColor = true;
             addpayment.Click += addpayment_Click;
             // 
@@ -198,7 +234,6 @@
             txtcatgoc.Name = "txtcatgoc";
             txtcatgoc.Size = new Size(246, 34);
             txtcatgoc.TabIndex = 10;
-            txtcatgoc.TextChanged += txtcatgoc_TextChanged;
             // 
             // label6
             // 
@@ -216,7 +251,6 @@
             txtlaisuat.Name = "txtlaisuat";
             txtlaisuat.Size = new Size(147, 34);
             txtlaisuat.TabIndex = 8;
-            txtlaisuat.TextChanged += txtlaisuat_TextChanged;
             // 
             // label5
             // 
@@ -339,5 +373,8 @@
         private Label lbCumulativeInterestPaid;
         private Label lbngaytralai;
         private Label lbdutinh;
+        private Label label7;
+        private TextBox txtsongay;
+        private Button btnthemmoi;
     }
 }

@@ -27,7 +27,6 @@ namespace Admin_KeToan
             InitializeEvents();
             LoadBanksAsync(); // Tải danh sách ngân hàng
             LoadCompletedLoansAsync();
-
             // Tắt chức năng giãn form
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -40,12 +39,10 @@ namespace Admin_KeToan
             datalisu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             datalisu.RowHeadersVisible = true;
             datalisu.RowHeadersWidth = 60;
-
             // Tạo các điều khiển phân trang
             btnPrevious = new Button { Text = "Previous", Size = new Size(100, 30), Location = new Point(datalisu.Left, datalisu.Bottom + 10) };
             btnNext = new Button { Text = "Next", Size = new Size(100, 30), Location = new Point(datalisu.Right - 100, datalisu.Bottom + 10) };
             lblPageInfo = new Label { Text = "Trang 1", AutoSize = true, Location = new Point((datalisu.Left + datalisu.Right - 100) / 2, datalisu.Bottom + 10) };
-
             // Thêm các điều khiển vào form
             this.Controls.Add(btnPrevious);
             this.Controls.Add(btnNext);
@@ -72,11 +69,9 @@ namespace Admin_KeToan
                         .Select(b => new { b.BankId, b.BankName })
                         .AsNoTracking()
                         .ToListAsync();
-
                     // Thêm mục "Tất cả" để hiển thị tất cả khoản vay
                     var bankList = new List<object> { new { BankId = 0, BankName = "Tất cả" } };
                     bankList.AddRange(banks);
-
                     // Gán danh sách ngân hàng vào ComboBox
                     cbloc.DataSource = null; // Reset DataSource để tránh lỗi
                     cbloc.DataSource = bankList;
@@ -114,7 +109,6 @@ namespace Admin_KeToan
                         })
                         .AsNoTracking()
                         .ToListAsync<object>();
-
                     filteredLoans = allLoans;
                     currentPage = 1;
                     DisplayPage(currentPage);
@@ -134,7 +128,6 @@ namespace Admin_KeToan
                 {
                     dynamic selectedItem = cbloc.SelectedItem;
                     string selectedBankName = selectedItem.BankName;
-
                     // Lọc danh sách khoản vay theo BankName
                     if (selectedBankName == "Tất cả")
                     {
@@ -148,10 +141,8 @@ namespace Admin_KeToan
                             filteredLoans = new List<object>(); // Trả về danh sách trống nếu không tìm thấy
                         }
                     }
-
                     currentPage = 1; // Reset về trang đầu
                     DisplayPage(currentPage);
-
                     // Làm mới DataGridView để đảm bảo hiển thị đúng
                     datalisu.Refresh();
                 }
@@ -171,20 +162,16 @@ namespace Admin_KeToan
                 currentPage = 1;
                 return;
             }
-
             int totalPages = (int)Math.Ceiling((double)filteredLoans.Count / pageSize);
             currentPage = Math.Clamp(page, 1, totalPages);
-
             var pageData = filteredLoans.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
             datalisu.DataSource = pageData;
-
             // Thêm số thứ tự (STT) vào header của dòng
             for (int i = 0; i < pageData.Count; i++)
             {
                 int stt = (currentPage - 1) * pageSize + i + 1;
                 datalisu.Rows[i].HeaderCell.Value = stt.ToString();
             }
-
             // Đảm bảo cột BankName luôn hiển thị
             if (!datalisu.Columns.Contains("BankName") && pageData.Any())
             {
@@ -202,14 +189,13 @@ namespace Admin_KeToan
                 }
             }
             // Tùy chỉnh tiêu đề cột
-            if (datalisu.Columns.Contains("LoanId")) datalisu.Columns["LoanId"].HeaderText = "Mã khoản vay";
+            if (datalisu.Columns.Contains("LoanId")) datalisu.Columns["LoanId"].Visible = false; // Ẩn cột LoanId
             if (datalisu.Columns.Contains("LoanName")) datalisu.Columns["LoanName"].HeaderText = "Tên khoản vay";
             if (datalisu.Columns.Contains("Amount")) datalisu.Columns["Amount"].HeaderText = "Số tiền vay";
             if (datalisu.Columns.Contains("Currency")) datalisu.Columns["Currency"].HeaderText = "Tiền tệ";
             if (datalisu.Columns.Contains("StartDate")) datalisu.Columns["StartDate"].HeaderText = "Ngày bắt đầu";
             if (datalisu.Columns.Contains("EndDate")) datalisu.Columns["EndDate"].HeaderText = "Ngày kết thúc";
             if (datalisu.Columns.Contains("Status")) datalisu.Columns["Status"].HeaderText = "Trạng thái";
-
             // Thêm cột Checkbox sau cột Status
             if (!datalisu.Columns.Contains("SelectLoan"))
             {
@@ -229,20 +215,16 @@ namespace Admin_KeToan
                     datalisu.Columns["SelectLoan"].DisplayIndex = datalisu.Columns["Status"].DisplayIndex + 1;
                 }
             }
-
             // Ẩn cột BankId nếu có
             if (datalisu.Columns.Contains("BankId")) datalisu.Columns["BankId"].Visible = false;
-
-            // Định dạng cột số tiền
+            // Định dạng cột số tiền (dùng "N0" cho long để hiển thị số nguyên lớn với dấu phẩy)
             if (datalisu.Columns.Contains("Amount"))
                 datalisu.Columns["Amount"].DefaultCellStyle.Format = "N0";
-
             // Định dạng cột ngày
             if (datalisu.Columns.Contains("StartDate"))
                 datalisu.Columns["StartDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
             if (datalisu.Columns.Contains("EndDate"))
                 datalisu.Columns["EndDate"].DefaultCellStyle.Format = "dd/MM/yyyy";
-
             // Bôi đậm tiêu đề cột
             Font headerFont = new Font(datalisu.Font.FontFamily, 12, FontStyle.Bold);
             foreach (DataGridViewColumn column in datalisu.Columns)
@@ -252,7 +234,6 @@ namespace Admin_KeToan
                     column.HeaderCell.Style.Font = headerFont;
                 }
             }
-
             UpdatePaginationInfo();
         }
 
@@ -263,7 +244,6 @@ namespace Admin_KeToan
                 (this.ClientSize.Width - datalisu.Width) / 2,
                 this.ClientSize.Height - datalisu.Height - verticalSpace
             );
-
             int controlY = datalisu.Bottom + 10;
             btnPrevious.Location = new Point(datalisu.Left, controlY);
             btnNext.Location = new Point(datalisu.Right - btnNext.Width, controlY);
@@ -295,9 +275,8 @@ namespace Admin_KeToan
         {
             try
             {
-                // Thiết lập giấy phép cho EPPlus
-                ExcelPackage.License.SetNonCommercialPersonal("Your Name"); // Thay "Your Name" bằng tên của bạn
-
+                // Thiết lập giấy phép cho EPPlus (sửa đúng cách cho license non-commercial)
+                ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
                 // Lấy danh sách các khoản vay được chọn
                 var selectedLoans = datalisu.Rows.Cast<DataGridViewRow>()
                     .Where(row => row.Cells["SelectLoan"].Value != null && (bool)row.Cells["SelectLoan"].Value)
@@ -306,20 +285,18 @@ namespace Admin_KeToan
                         LoanId = (int)row.Cells["LoanId"].Value,
                         LoanName = row.Cells["LoanName"].Value?.ToString(),
                         BankName = row.Cells["BankName"].Value?.ToString(),
-                        Amount = row.Cells["Amount"].Value != null ? Convert.ToInt64(row.Cells["Amount"].Value) : 0,
+                        Amount = row.Cells["Amount"].Value != null ? Convert.ToInt64(row.Cells["Amount"].Value) : 0L, // Sử dụng long (0L) để phù hợp
                         Currency = row.Cells["Currency"].Value?.ToString(),
                         StartDate = row.Cells["StartDate"].Value != null ? Convert.ToDateTime(row.Cells["StartDate"].Value) : DateTime.MinValue,
                         EndDate = row.Cells["EndDate"].Value != null ? Convert.ToDateTime(row.Cells["EndDate"].Value) : DateTime.MinValue,
                         Status = row.Cells["Status"].Value?.ToString()
                     })
                     .ToList();
-
                 if (!selectedLoans.Any())
                 {
                     MessageBox.Show("Vui lòng chọn ít nhất một khoản vay để xuất Excel.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
                 // Mở SaveFileDialog để người dùng chọn vị trí lưu file
                 using (var saveFileDialog = new SaveFileDialog
                 {
@@ -330,22 +307,19 @@ namespace Admin_KeToan
                 {
                     if (saveFileDialog.ShowDialog() != DialogResult.OK)
                         return;
-
                     // Kiểm tra quyền truy cập thư mục
                     string directory = Path.GetDirectoryName(saveFileDialog.FileName);
-                    if (!Directory.Exists(directory) || !new DirectoryInfo(directory).GetAccessControl().AreAccessRulesCanonical)
+                    if (!Directory.Exists(directory) || !new DirectoryInfo(directory).GetAccessControl().AreAccessRulesProtected) // Sửa để kiểm tra quyền đúng hơn (AreAccessRulesProtected thay vì AreAccessRulesCanonical)
                     {
                         MessageBox.Show("Không có quyền truy cập thư mục đích. Vui lòng chọn thư mục khác.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-
                     using (var package = new ExcelPackage(new FileInfo(saveFileDialog.FileName)))
                     {
                         using (var context = new KeToanDbContext())
                         {
                             // Nhóm các khoản vay theo BankName
                             var groupedLoans = selectedLoans.GroupBy(loan => loan.BankName).ToList();
-
                             int worksheetIndex = 1;
                             foreach (var group in groupedLoans)
                             {
@@ -354,15 +328,12 @@ namespace Admin_KeToan
                                 string worksheetName = $"Bank_{worksheetIndex++}_{bankName.Replace(" ", "_").Replace("/", "_").Replace("\\", "_")}";
                                 if (worksheetName.Length > 31) worksheetName = worksheetName.Substring(0, 31);
                                 var worksheet = package.Workbook.Worksheets.Add(worksheetName);
-
                                 int currentRow = 1;
-
                                 // Tiêu đề chính cho ngân hàng
                                 worksheet.Cells[currentRow, 1].Value = $"Thông tin khoản vay - Ngân hàng {bankName}";
                                 worksheet.Cells[currentRow, 1, currentRow, 7].Merge = true; // Merge 7 cột theo yêu cầu
                                 worksheet.Cells[currentRow, 1].Style.Font.Bold = true;
                                 currentRow++;
-
                                 // Tiêu đề cột cho khoản vay (giữ 7 cột theo yêu cầu)
                                 string[] loanHeaders = new[] { "Mã khoản vay", "Tên khoản vay", "Số tiền vay", "Tiền tệ", "Ngày bắt đầu", "Ngày kết thúc", "Trạng thái" };
                                 for (int i = 0; i < loanHeaders.Length; i++)
@@ -371,14 +342,13 @@ namespace Admin_KeToan
                                     worksheet.Cells[currentRow, i + 1].Style.Font.Bold = true;
                                 }
                                 currentRow++;
-
                                 // Dữ liệu khoản vay
                                 foreach (var loan in group)
                                 {
                                     worksheet.Cells[currentRow, 1].Value = loan.LoanId;
                                     worksheet.Cells[currentRow, 2].Value = loan.LoanName;
                                     worksheet.Cells[currentRow, 3].Value = loan.Amount;
-                                    worksheet.Cells[currentRow, 3].Style.Numberformat.Format = "#,##0";
+                                    worksheet.Cells[currentRow, 3].Style.Numberformat.Format = "#,##0"; // Phù hợp cho long (số nguyên lớn)
                                     worksheet.Cells[currentRow, 4].Value = loan.Currency;
                                     worksheet.Cells[currentRow, 5].Value = loan.StartDate;
                                     worksheet.Cells[currentRow, 5].Style.Numberformat.Format = "dd/mm/yyyy";
@@ -386,7 +356,6 @@ namespace Admin_KeToan
                                     worksheet.Cells[currentRow, 6].Style.Numberformat.Format = "dd/mm/yyyy";
                                     worksheet.Cells[currentRow, 7].Value = loan.Status;
                                     currentRow++;
-
                                     // Thông tin thanh toán cho khoản vay
                                     var dbLoan = context.Loans
                                         .Include(l => l.Payments)
@@ -396,13 +365,11 @@ namespace Admin_KeToan
                                         MessageBox.Show($"Không tìm thấy khoản vay với LoanId: {loan.LoanId}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         continue;
                                     }
-
                                     // Tiêu đề phần thanh toán
                                     worksheet.Cells[currentRow, 1].Value = $"Thông tin thanh toán - {loan.LoanName}";
                                     worksheet.Cells[currentRow, 1, currentRow, 11].Merge = true;
                                     worksheet.Cells[currentRow, 1].Style.Font.Bold = true;
                                     currentRow++;
-
                                     // Tiêu đề cột thanh toán
                                     string[] paymentHeaders = new[]
                                     {
@@ -417,7 +384,6 @@ namespace Admin_KeToan
                                         worksheet.Cells[currentRow, i + 1].Style.Font.Bold = true;
                                     }
                                     currentRow++;
-
                                     // Dữ liệu thanh toán
                                     foreach (var payment in dbLoan.Payments.OrderBy(p => p.StartDate))
                                     {
@@ -441,16 +407,13 @@ namespace Admin_KeToan
                                         worksheet.Cells[currentRow, 11].Value = payment.IsConfirmed ? "Đã thanh toán" : "Chưa thanh toán";
                                         currentRow++;
                                     }
-
                                     currentRow++;
                                 }
-
                                 // Tự động điều chỉnh độ rộng cột
                                 worksheet.Cells[worksheet.Dimension.Address].AutoFitColumns();
                             }
-
                             // Lưu file Excel
-                            File.WriteAllBytes(saveFileDialog.FileName, package.GetAsByteArray());
+                            package.Save();
                             MessageBox.Show($"Xuất file thành công: {saveFileDialog.FileName}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                     }
@@ -470,16 +433,13 @@ namespace Admin_KeToan
                 var selectedRows = datalisu.Rows.Cast<DataGridViewRow>()
                     .Where(row => row.Cells["SelectLoan"].Value != null && (bool)row.Cells["SelectLoan"].Value)
                     .ToList();
-
                 if (selectedRows.Count != 1)
                 {
                     MessageBox.Show("Vui lòng chọn đúng một khoản vay để xem chi tiết.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-
                 // Lấy LoanId từ dòng được chọn
                 int selectedLoanId = (int)selectedRows[0].Cells["LoanId"].Value;
-
                 // Mở form CtLichsu và truyền LoanId
                 var ctLichsuForm = new CtLichsu(selectedLoanId);
                 ctLichsuForm.ShowDialog();

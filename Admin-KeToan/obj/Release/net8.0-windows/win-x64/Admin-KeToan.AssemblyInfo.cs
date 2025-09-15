@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Admin-KeToan")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+751d2764064694126865395e8c9cf1456dc532e2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Admin-KeToan")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Admin-KeToan")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

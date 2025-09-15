@@ -1238,3 +1238,4 @@ C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Release\net8.0-windows\wi
 C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Release\net8.0-windows\win-x64\Admin-KeToan.pdb
 C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Release\net8.0-windows\win-x64\Admin-KeToan.genruntimeconfig.cache
 C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Release\net8.0-windows\win-x64\ref\Admin-KeToan.dll
+C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Release\net8.0-windows\win-x64\Admin-KeToan.sourcelink.json

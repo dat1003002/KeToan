@@ -65,11 +65,11 @@ namespace Admin_KeToan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanId"));
 
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("Balance")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("BankId")
                         .HasColumnType("int");
@@ -123,7 +123,7 @@ namespace Admin_KeToan.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<decimal>("CumulativeInterestPaid")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,4)");
 
                     b.Property<int>("DayCountConvention")
                         .HasColumnType("int");
@@ -132,13 +132,13 @@ namespace Admin_KeToan.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("EstimatedInterestPaid")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,4)");
 
                     b.Property<decimal>("EstimatedPrincipalPaid")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,4)");
 
                     b.Property<decimal>("InterestPaid")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,4)");
 
                     b.Property<decimal>("InterestRate")
                         .HasColumnType("decimal(5,2)");
@@ -155,8 +155,11 @@ namespace Admin_KeToan.Migrations
                     b.Property<int>("NumberOfDays")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("PaymentDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<decimal>("PrincipalPaid")
-                        .HasColumnType("decimal(15,2)");
+                        .HasColumnType("decimal(15,4)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");

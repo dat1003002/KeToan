@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Admin_KeToan.Migrations
 {
     /// <inheritdoc />
-    public partial class updateEmail : Migration
+    public partial class updatemodel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,14 +45,16 @@ namespace Admin_KeToan.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BankId = table.Column<int>(type: "int", nullable: false),
                     LoanName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Amount = table.Column<long>(type: "bigint", nullable: false),
+                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Duration = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Balance = table.Column<long>(type: "bigint", nullable: false),
+                    Balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     IsCompleted = table.Column<bool>(type: "bit", nullable: false),
                     PaymentPeriod = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false)
+                    Currency = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
+                    StartPrincipalPaymentMonth = table.Column<int>(type: "int", nullable: false),
+                    PrincipalPaymentAmount = table.Column<decimal>(type: "decimal(15,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,8 +81,10 @@ namespace Admin_KeToan.Migrations
                     PrincipalPaid = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
                     CumulativeInterestPaid = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
                     EstimatedInterestPaid = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
+                    EstimatedPrincipalPaid = table.Column<decimal>(type: "decimal(15,2)", nullable: false),
                     DayCountConvention = table.Column<int>(type: "int", nullable: false),
-                    IsConfirmed = table.Column<bool>(type: "bit", nullable: false)
+                    IsConfirmed = table.Column<bool>(type: "bit", nullable: false),
+                    IsEmailSent = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

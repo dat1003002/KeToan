@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Admin_KeToan.Migrations
 {
     [DbContext(typeof(KeToanDbContext))]
-    [Migration("20250703082448_addlieudd")]
-    partial class addlieudd
+    [Migration("20250809091902_updatemodel")]
+    partial class updatemodel
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -68,11 +68,11 @@ namespace Admin_KeToan.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LoanId"));
 
-                    b.Property<long>("Amount")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<long>("Balance")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("BankId")
                         .HasColumnType("int");

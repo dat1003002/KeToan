@@ -354,3 +354,4 @@ C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Debug\net8.0-windows\refi
 C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Debug\net8.0-windows\Admin-KeToan.pdb
 C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Debug\net8.0-windows\Admin-KeToan.genruntimeconfig.cache
 C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Debug\net8.0-windows\ref\Admin-KeToan.dll
+C:\Users\admin\Documents\Admin-KeToan\Admin-KeToan\obj\Debug\net8.0-windows\Admin-KeToan.sourcelink.json

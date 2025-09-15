@@ -18,7 +18,7 @@ namespace Admin_KeToan.Model
         public string LoanName { get; set; }
 
         [Required]
-        public long Amount { get; set; } // Số tiền vay
+        public decimal Amount { get; set; } // Số tiền vay
 
         [Required]
         public int Duration { get; set; } // Số kỳ (tháng hoặc quý)
@@ -27,7 +27,7 @@ namespace Admin_KeToan.Model
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
 
-        public long Balance { get; set; } // Số dư
+        public decimal Balance { get; set; } // Số dư
 
         public bool IsCompleted { get; set; }
 

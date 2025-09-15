@@ -48,6 +48,8 @@
             label4 = new Label();
             label3 = new Label();
             label2 = new Label();
+            label8 = new Label();
+            dateStop = new DateTimePicker();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataLoan).BeginInit();
             groupBox1.SuspendLayout();
@@ -88,6 +90,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(dateStop);
+            groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(export);
             groupBox1.Controls.Add(btnchitiet);
             groupBox1.Controls.Add(btnxoa);
@@ -217,14 +221,14 @@
             // dateStartDate
             // 
             dateStartDate.Format = DateTimePickerFormat.Custom;
-            dateStartDate.Location = new Point(203, 165);
+            dateStartDate.Location = new Point(203, 137);
             dateStartDate.Name = "dateStartDate";
             dateStartDate.Size = new Size(250, 34);
             dateStartDate.TabIndex = 5;
             // 
             // inputAmount
             // 
-            inputAmount.Location = new Point(203, 111);
+            inputAmount.Location = new Point(203, 85);
             inputAmount.Name = "inputAmount";
             inputAmount.Size = new Size(301, 34);
             inputAmount.TabIndex = 4;
@@ -232,7 +236,7 @@
             // 
             // inputLoanName
             // 
-            inputLoanName.Location = new Point(203, 46);
+            inputLoanName.Location = new Point(203, 33);
             inputLoanName.Name = "inputLoanName";
             inputLoanName.Size = new Size(301, 34);
             inputLoanName.TabIndex = 3;
@@ -241,17 +245,17 @@
             // 
             label4.AutoSize = true;
             label4.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            label4.Location = new Point(35, 171);
+            label4.Location = new Point(21, 146);
             label4.Name = "label4";
-            label4.Size = new Size(107, 23);
+            label4.Size = new Size(155, 23);
             label4.TabIndex = 2;
-            label4.Text = "Thời Gian :";
+            label4.Text = "Thời Gian Start :";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            label3.Location = new Point(35, 122);
+            label3.Location = new Point(43, 90);
             label3.Name = "label3";
             label3.Size = new Size(123, 23);
             label3.TabIndex = 1;
@@ -261,11 +265,29 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
-            label2.Location = new Point(35, 57);
+            label2.Location = new Point(53, 38);
             label2.Name = "label2";
             label2.Size = new Size(113, 23);
             label2.TabIndex = 0;
             label2.Text = "Khoản Vay :";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Times New Roman", 12F, FontStyle.Bold);
+            label8.Location = new Point(31, 187);
+            label8.Name = "label8";
+            label8.Size = new Size(145, 23);
+            label8.TabIndex = 16;
+            label8.Text = "Thời Gian Stop:";
+            // 
+            // dateStop
+            // 
+            dateStop.Format = DateTimePickerFormat.Custom;
+            dateStop.Location = new Point(203, 187);
+            dateStop.Name = "dateStop";
+            dateStop.Size = new Size(250, 34);
+            dateStop.TabIndex = 17;
             // 
             // KhoanVay
             // 
@@ -308,5 +330,7 @@
         private Button btnxoa;
         private Button btnchitiet;
         private Button export;
+        private DateTimePicker dateStop;
+        private Label label8;
     }
 }

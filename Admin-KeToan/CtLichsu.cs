@@ -26,7 +26,6 @@ namespace Admin_KeToan
             InitializeControls();
             InitializeEvents();
             LoadPaymentsAsync();
-
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = true;
@@ -38,7 +37,6 @@ namespace Admin_KeToan
             datactLichsu.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             datactLichsu.RowHeadersVisible = true;
             datactLichsu.RowHeadersWidth = 60;
-
             // Định dạng cột
             datactLichsu.ColumnAdded += (s, e) =>
             {
@@ -58,18 +56,18 @@ namespace Admin_KeToan
                         break;
                     case "InterestRate":
                         column.HeaderText = "Lãi suất";
-                        column.DefaultCellStyle.Format = "0.00\\%"; // Hiển thị giá trị với 2 chữ số thập phân và ký hiệu %
+                        column.DefaultCellStyle.Format = "0.00\\%"; // Hiển thị lãi suất với 2 chữ số thập phân và ký hiệu %
                         break;
                     case "InterestPaid":
                         column.HeaderText = "Tiền lãi đã trả";
-                        column.DefaultCellStyle.Format = "#,##0.00";
+                        column.DefaultCellStyle.Format = "#,##0"; // Định dạng cho long (không thập phân)
                         break;
                     case "PrincipalPaid":
-                        column.HeaderText = "Tiền Cắt Gốc";
-                        column.DefaultCellStyle.Format = "#,##0.00";
+                        column.HeaderText = "Tiền cắt gốc";
+                        column.DefaultCellStyle.Format = "#,##0"; // Định dạng cho long (không thập phân)
                         break;
                     case "DayCountConvention":
-                        column.HeaderText = "Ngày tính lãi";
+                        column.HeaderText = "Phương thức tính ngày";
                         break;
                     case "IsConfirmed":
                         column.HeaderText = "Trạng thái";
@@ -78,7 +76,6 @@ namespace Admin_KeToan
                         column.Visible = false; // Ẩn các cột không được định nghĩa
                         break;
                 }
-
                 // Bôi đậm tiêu đề cột
                 column.HeaderCell.Style.Font = new Font(datactLichsu.Font.FontFamily, 12, FontStyle.Bold);
             };
@@ -90,7 +87,6 @@ namespace Admin_KeToan
             btnPrevious = new Button { Text = "Previous", Size = new Size(100, 30), Location = new Point(datactLichsu.Left, datactLichsu.Bottom + 10) };
             btnNext = new Button { Text = "Next", Size = new Size(100, 30), Location = new Point(datactLichsu.Right - 100, datactLichsu.Bottom + 10) };
             lblPageInfo = new Label { Text = "Trang 1", AutoSize = true, Location = new Point((datactLichsu.Left + datactLichsu.Right - 100) / 2, datactLichsu.Bottom + 10) };
-
             // Thêm các điều khiển vào form
             this.Controls.Add(btnPrevious);
             this.Controls.Add(btnNext);
@@ -120,15 +116,14 @@ namespace Admin_KeToan
                             p.EndDate,
                             p.NumberOfDays,
                             p.InterestRate,
-                            p.InterestPaid,
-                            p.PrincipalPaid,
+                            InterestPaid = (long)p.InterestPaid, // Ép kiểu về long để đảm bảo tương thích
+                            PrincipalPaid = (long)p.PrincipalPaid, // Ép kiểu về long để đảm bảo tương thích
                             p.DayCountConvention,
                             IsConfirmed = p.IsConfirmed ? "Đã thanh toán" : "Chưa thanh toán"
                         })
                         .OrderBy(p => p.StartDate)
                         .AsNoTracking()
                         .ToListAsync<object>();
-
                     currentPage = 1;
                     DisplayPage(currentPage);
                 }
@@ -148,20 +143,16 @@ namespace Admin_KeToan
                 currentPage = 1;
                 return;
             }
-
             int totalPages = (int)Math.Ceiling((double)allPayments.Count / pageSize);
             currentPage = Math.Clamp(page, 1, totalPages);
-
             var pageData = allPayments.Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
             datactLichsu.DataSource = pageData;
-
             // Thêm số thứ tự (STT) vào header của dòng
             for (int i = 0; i < pageData.Count; i++)
             {
                 int stt = (currentPage - 1) * pageSize + i + 1;
                 datactLichsu.Rows[i].HeaderCell.Value = stt.ToString();
             }
-
             UpdatePaginationInfo();
         }
 
@@ -172,7 +163,6 @@ namespace Admin_KeToan
                 (this.ClientSize.Width - datactLichsu.Width) / 2,
                 this.ClientSize.Height - datactLichsu.Height - verticalSpace
             );
-
             int controlY = datactLichsu.Bottom + 10;
             btnPrevious.Location = new Point(datactLichsu.Left, controlY);
             btnNext.Location = new Point(datactLichsu.Right - btnNext.Width, controlY);
